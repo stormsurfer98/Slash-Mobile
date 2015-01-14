@@ -1,50 +1,57 @@
 package me.shreygupta.slash;
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import java.net.URL;
-import javax.imageio.*;
+import java.util.HashMap;
+
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.widget.ImageView;
+
+//Author: Andrei Gheorghe (http://github.com/idevelop)
+//Editor: Shrey Gupta
 
 public class ASCImage {
+    private static String asciiFromCanvas(ImageView imageView) {
+        //Characters
+        String[] characters = new String[15];
+        characters = (" .,:;i1tfLCG08@").split("");
 
-    private static BufferedImage img;
-    private static final String characters = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
-    private static final int numQuant = characters.length();
+        //Width, height, and ASCII Characters
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        int canvasWidth = imageView.getWidth();
+        int canvasHeight = imageView.getHeight();
+        String asciiCharacters = "";
 
-    public static void main(String[] args) throws IOException{
-        img = ImageIO.read(new File("image.jpg"));
-        String output = convertToAscii(img);
+        //Calculate contrast factor
+        //int contrastFactor = (259 * (options.contrast + 255)) / (255 * (259 - options.contrast));
+        for (int y = 0; y < canvasHeight; y += 2) {
+            for (int x = 0; x < canvasWidth; x++) {
+                //Get each pixel's brightness and output corresponding character
+                HashMap<String, Integer> color = new HashMap<String, Integer>();
+                int pixel = bitmap.getPixel(x,y);
+                color = getColorAtOffset(pixel);
+
+                //Increase the contrast of the image so that the ASCII representation looks better
+                HashMap<String, Double> contrastedColor = new HashMap<String, Double>();
+                contrastedColor.put("red", Math.max(Math.min(Math.floor((color.get("red") - 128)) + 128, 255), 0));
+                contrastedColor.put("green", Math.max(Math.min(Math.floor((color.get("green") - 128)) + 128, 255), 0));
+                contrastedColor.put("blue", Math.max(Math.min(Math.floor((color.get("blue") - 128)) + 128, 255), 0));
+
+                //Calculate pixel brightness
+                double brightness = (0.299 * contrastedColor.get("red") + 0.587 * contrastedColor.get("green") + 0.114 * contrastedColor.get("blue")) / 255;
+                String character = characters[(characters.length - 1) - Math.round((float)brightness * (characters.length - 1))];
+                asciiCharacters += character;
+            }
+            asciiCharacters += "\n";
+        }
+        return asciiCharacters;
     }
 
-    public static String convertToAscii(BufferedImage img) {
-        int width = img.getWidth();
-        int height = img.getHeight();
-        for (int w = 10; w <= width; w += 10) {
-            for (int h = 10; h <= width; h += 10) {
-                double dens = findDensity(img, w, h);
-                int ans = numQuant - ((int) Math.ceil(dens * numQuant/100));
-                System.out.print(characters.substring(ans, ans + 1));
-            }
-            System.out.println();
-        }
-        return "";
-    }
-
-    public static double findDensity(BufferedImage img, int w, int h) {
-        double overall = 0.0;
-        for (int i = w; i < w + 10; i++) {
-            for (int j = h; j < h + 10; j++) {
-                if (i <= img.getWidth() && h <= img.getHeight()) {
-                    double average = 0.0;
-                    average += 255 - img.getRGB(i, j);
-                    average /= 3.0;
-                    overall += average;
-                }
-            }
-        }
-        overall /= 100;
-        return overall;
+    private static HashMap<String, Integer> getColorAtOffset(int pixel) {
+        HashMap<String, Integer> color = new HashMap<String, Integer>();
+        color.put("red", Color.red(pixel));
+        color.put("green", Color.blue(pixel));
+        color.put("blue", Color.green(pixel));
+        return color;
     }
 }
