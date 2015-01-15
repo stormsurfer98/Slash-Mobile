@@ -4,14 +4,25 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.content.Intent;
+import android.view.View;
+import android.widget.ImageView;
 
 public class Main extends Activity {
+    private ImageView image01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        image01 = (ImageView)findViewById(R.id.addContacts);
+        final Intent intent01 = new Intent(this, Hangout.class);
+        image01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent01);
+            }
+        });
     }
 
 

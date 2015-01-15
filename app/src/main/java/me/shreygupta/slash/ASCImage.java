@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
+import android.content.Intent;
 
 //Author: Andrei Gheorghe (http://github.com/idevelop)
 //Editor: Shrey Gupta
