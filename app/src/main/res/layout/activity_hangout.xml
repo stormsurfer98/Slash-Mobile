@@ -68,4 +68,14 @@
             android:layout_marginTop="75dp"
             android:layout_centerHorizontal="true"/>
         </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hangout will appear here."
+        android:id="@+id/hangoutText"
+        android:layout_below="@+id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

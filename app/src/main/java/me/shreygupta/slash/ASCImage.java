@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.content.Intent;
 
@@ -12,15 +13,15 @@ import android.content.Intent;
 //Editor: Shrey Gupta
 
 public class ASCImage {
-    private static String asciiFromCanvas(ImageView imageView) {
+    private static String asciiFromCanvas(Drawable drawable) {
         //Characters
         String[] characters = new String[15];
         characters = (" .,:;i1tfLCG08@").split("");
 
         //Width, height, and ASCII Characters
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        int canvasWidth = imageView.getWidth();
-        int canvasHeight = imageView.getHeight();
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        int canvasWidth = ((BitmapDrawable)drawable).getBitmap().getHeight();
+        int canvasHeight = ((BitmapDrawable)drawable).getBitmap().getHeight();
         String asciiCharacters = "";
 
         //Calculate contrast factor
