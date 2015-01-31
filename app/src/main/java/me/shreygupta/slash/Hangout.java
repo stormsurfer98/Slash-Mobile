@@ -18,8 +18,9 @@ public class Hangout extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangout);
-        Drawable image = getResources().getDrawable(R.drawable.info);
+        Drawable image = getResources().getDrawable(R.drawable.obama);
         textView01 = (TextView)findViewById(R.id.hangoutText);
+        textView01.setTextSize(5.0f);
         textView01.setText(asciiFromCanvas(image)+"");
     }
 
@@ -59,8 +60,8 @@ public class Hangout extends Activity {
 
         //Calculate contrast factor
         //int contrastFactor = (259 * (options.contrast + 255)) / (255 * (259 - options.contrast));
-        for (int y = 0; y < canvasHeight; y += 6) {
-            for (int x = 0; x < canvasWidth; x+= 6) {
+        for (int y = 0; y < canvasHeight; y += 40) {
+            for (int x = 0; x < canvasWidth; x+= 40) {
                 //Get each pixel's brightness and output corresponding character
                 HashMap<String, Integer> color;
                 int pixel = bitmap.getPixel(x,y);
